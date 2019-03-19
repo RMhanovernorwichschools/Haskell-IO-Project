@@ -31,4 +31,13 @@
     * Letters that do not occur in the text are not listed in the output at all.
 -}
 
-main = putStrLn "Put your program here!"
+count :: Eq a => a -> [a] -> Int
+count a l = length [x| x<-l, x==a]
+
+distrib :: [Char] -> [[Char]]
+distrib l = [take (count x l) (repeat x) | x<- ['a'..'z'], count x l >0]
+
+main = do
+    putStrLn "Enter the phrase on which the distribution will be done."
+    st <- getLine
+    mapM_ putStrLn (distrib st)
