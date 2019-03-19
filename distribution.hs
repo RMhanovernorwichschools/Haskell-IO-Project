@@ -30,6 +30,7 @@
       in the text and they are listed in the output in alphabetical order.
     * Letters that do not occur in the text are not listed in the output at all.
 -}
+import Data.Char
 
 count :: Eq a => a -> [a] -> Int
 count a l = length [x| x<-l, x==a]
@@ -37,7 +38,13 @@ count a l = length [x| x<-l, x==a]
 distrib :: [Char] -> [[Char]]
 distrib l = [take (count x l) (repeat x) | x<- ['a'..'z'], count x l >0]
 
+sectionByQuan :: [[a]] -> Int -> [[a]]
+sectionByQuan xs s = [x | x<-xs, length x == s]
+
 main = do
-    putStrLn "Enter the phrase on which the distribution will be done."
-    st <- getLine
-    mapM_ putStrLn (distrib st)
+    putStrLn "Please enter a string of text (the bigger the better):"
+    typed <- getLine
+    let st = map toLower typed
+    putStrLn "The distribution of characters in \"The rain in Spain stays mainly in the plain.\" is:"
+    let m = maximum [length x | x<- (distrib st)] in
+      mapM_ putStrLn (foldl1 (++) [sectionByQuan (distrib st) a | a<- [m,(m-1)..1]])
