@@ -45,6 +45,6 @@ main = do
     putStrLn "Please enter a string of text (the bigger the better):"
     typed <- getLine
     let st = map toLower typed
-    putStrLn "The distribution of characters in \"The rain in Spain stays mainly in the plain.\" is:"
+    putStrLn $ "The distribution of characters in \""++typed++"\" is:"
     let m = maximum [length x | x<- (distrib st)] in
       mapM_ putStrLn (foldl1 (++) [sectionByQuan (distrib st) a | a<- [m,(m-1)..1]])
